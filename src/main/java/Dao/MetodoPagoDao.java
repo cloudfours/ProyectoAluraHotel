@@ -16,7 +16,7 @@ public class MetodoPagoDao {
 		this.con = con;
 	}
 	public List<MetodoPago>lista(){
-		List<MetodoPago>resultado = new ArrayList();
+		List<MetodoPago>resultado = new ArrayList<>();
 		try {
 			final PreparedStatement statement = con.prepareStatement("select id,nombrePago from formaPago ");
 			try(statement){
@@ -33,6 +33,8 @@ public class MetodoPagoDao {
 		}catch(SQLException e) {
 			throw new RuntimeException(e);
 		}
-		return resultado;
+		System.out.println(resultado);
+		return resultado;	
 	}
+	
 }

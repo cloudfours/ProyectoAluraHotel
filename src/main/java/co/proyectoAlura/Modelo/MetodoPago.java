@@ -1,8 +1,16 @@
 package co.proyectoAlura.Modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MetodoPago {
 	private int id;
 	private String nombre;
+	private List<ReservasLogic> reservas;
+
+	public List<ReservasLogic> getReservas() {
+		return reservas;
+	}
 
 	public MetodoPago(int id, String nombre) {
 
@@ -14,15 +22,21 @@ public class MetodoPago {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.nombre;
+	}
+
+	public void AgregarReserva(ReservasLogic reserva) {
+		if (this.reservas == null) {
+			this.reservas = new ArrayList<>();
+		}
+		this.reservas.add(reserva);
+
 	}
 }

@@ -107,7 +107,7 @@ public class Busqueda extends JFrame {
 		
 		JTable tbReservas = new JTable();
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
-		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas, null);
+		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas, null);
 		
 		JButton btnEliminar = new JButton("");
 		btnEliminar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/deletar.png")));

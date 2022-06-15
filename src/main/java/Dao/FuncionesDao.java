@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 import com.mysql.cj.protocol.Resultset;
 
 import co.proyecto.alura.pruebaConexion.ConexionPool;
-import co.proyectoAlura.Modelo.Reservas;
+import co.proyectoAlura.Modelo.ReservasLogic;
 import co.proyectoAlura.Modelo.Usuario;
 
 public class FuncionesDao {
@@ -57,10 +58,10 @@ public class FuncionesDao {
 		}
 	}
 
-	public void AgendarReservars(Reservas reserva) {
+	public void AgendarReservars(ReservasLogic reserva) {
 		try (con) {
 			final PreparedStatement statement = con.prepareStatement(
-					"insert into reservas" + "(fecha_entrada,fecha_salida,valor,id_pago)" + "values(?,?,?,?)");
+					"insert into reservas" + "(fecha_entrada,fecha_salida,valor,id_pago)" + "values(?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			try (statement) {
 				ejecutarReserva(reserva, statement);
 			} catch (SQLException e) {
@@ -75,11 +76,20 @@ public class FuncionesDao {
 		}
 	}
 
-	public void ejecutarReserva(Reservas reserva, PreparedStatement statement) throws SQLException {
-    statement.setDate(0, Date.valueOf(reserva.getFechaEntrada()));
-    statement.setDate(1, Date.valueOf(reserva.getFechaSalida()));
-    statement.setFloat(2, reserva.getValor());
-    statement.setInt(3, reserva.getMetodoPago());
-    
+	public void ejecutarReserva(ReservasLogic reserva, PreparedStatement statement) throws SQLException {
+	
+		statement.setDate(1, reserva.getFechaEntrada());
+		statement.setDate(2, reserva.getFechaSalida());
+		statement.setFloat(3, reserva.getValor());
+		statement.setInt(4, reserva.getMetodoPago());
+		final ResultSet result = statement.getGeneratedKeys();
+		statement.execute();
+		try (result) {// apartir de java 9 se puede con try-catch-resources hacer un codigo mas limpio
+			while (result.next()) {
+			
+				reserva.setId(result.getInt(1));
+				System.out.println(String.format("Fue insertado el reserva %s: ", result.toString()));
+			}
+		}
 	}
 }

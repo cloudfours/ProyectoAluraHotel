@@ -97,7 +97,7 @@ public class MenuUsuario extends JFrame {
 		btnSalir.setBounds(823, 411, 50, 47);
 		contentPane.add(btnSalir);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Reservas");
+		JLabel lblNewLabel_1_1 = new JLabel("ReservasLogic");
 		lblNewLabel_1_1.setForeground(new Color(12, 138, 199));
 		lblNewLabel_1_1.setFont(new Font("Arial", Font.BOLD, 16));
 		lblNewLabel_1_1.setBounds(741, 163, 80, 17);
