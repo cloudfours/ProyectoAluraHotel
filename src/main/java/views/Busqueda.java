@@ -127,7 +127,10 @@ public class Busqueda extends JFrame {
 				usuario.setVisible(true);
 				dispose();
 			}
+			
+		
 		});
+	
 		btnSalir.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cerrar-sesion 32-px.png")));
 		btnSalir.setForeground(Color.WHITE);
 		btnSalir.setBackground(Color.WHITE);
