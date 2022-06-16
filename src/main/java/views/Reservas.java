@@ -46,7 +46,7 @@ public class Reservas extends JFrame {
 	private metodoPagosController metodoPago = new metodoPagosController();
 	private reservaController reservase = new reservaController();
 	private ReservasLogic logic = new ReservasLogic();
-
+	RegistroHuesped huesped = new RegistroHuesped();
 	/**
 	 * Launch the application.
 	 */
@@ -140,23 +140,32 @@ public class Reservas extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 
-				RegistroHuesped huesped = new RegistroHuesped();
-			
-
-				huesped.setVisible(true);
-
-				dispose();
+				
 				guardar();
+
 			}
 
 			private void guardar() {
+				if (txtFechaS.getDate() == null || txtFechaE.getDate() == null) {
+					JOptionPane.showMessageDialog(null, " no se ha ingresado correctamente");
+					
+					
+					huesped.setVisible(false);
 
+					dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "se ha ingresado correctamente");
+					
+					
+					huesped.setVisible(true);
+
+					dispose();
 				java.util.Date fechaSalida = txtFechaS.getDate();
 				java.util.Date fechaEntrada = txtFechaE.getDate();
-				@SuppressWarnings("deprecation")
+
 				Date converFechaEntrada = new Date(fechaEntrada.getYear(), fechaEntrada.getMonth(),
 						fechaEntrada.getDay());
-				@SuppressWarnings("deprecation")
+
 				Date converFechaSalida = new Date(fechaSalida.getYear(), fechaSalida.getMonth(), fechaSalida.getDay());
 				SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
 				String dateone = formato.format(fechaSalida);
@@ -166,17 +175,17 @@ public class Reservas extends JFrame {
 				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn);
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
-				
-					txtValor.setText(String.valueOf(valores));
-					var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, valores);
-					var metodoPago = (MetodoPago) txtFormaPago.getSelectedItem();
-					reservaController crear = new reservaController();
-					reserva.setMetodoPago(metodoPago.getId());
-					crear.guardarReserva(reserva, metodoPago.getId());
-					JOptionPane.showMessageDialog(null, "se ha ingresado correctamente");
-				
-			}
 
+				txtValor.setText(String.valueOf(valores));
+				var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, valores);
+				var metodoPago = (MetodoPago) txtFormaPago.getSelectedItem();
+				reservaController crear = new reservaController();
+				reserva.setMetodoPago(metodoPago.getId());
+				crear.guardarReserva(reserva, metodoPago.getId());
+			
+
+			}
+			}
 		});
 		btnReservar.setForeground(Color.WHITE);
 		btnReservar.setBounds(183, 436, 140, 33);

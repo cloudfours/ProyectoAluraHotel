@@ -14,8 +14,12 @@ public class ReservasLogic {
 	private int id;
 	private Date fechaEntrada;
 	private Date fechaSalida;
-	private float  valor;
+	private float valor;
 	private int metodoPago;
+
+	public ReservasLogic(int id) {
+		this.id = id;
+	}
 
 	public ReservasLogic() {
 		super();
@@ -60,8 +64,6 @@ public class ReservasLogic {
 	public void setId(int id) {
 		this.id = id;
 	}
-    
-	
 
 	@Override
 	public String toString() {
