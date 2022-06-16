@@ -31,9 +31,10 @@ public class Busqueda extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
-	private DefaultTableModel modelo;
+	private DefaultTableModel modelo1;
+	private DefaultTableModel modelo2;
 	private reservaController reservar = new reservaController();
-	 private Dimension dim;
+	
 	 
 	/**
 	 * Launch the application.
@@ -76,9 +77,10 @@ public class Busqueda extends JFrame {
 
 				if (txtBuscar.getText().length()==0) {
 					cargarTabla();
-					
+					cargarTablaReserva();
 				} else if(txtBuscar.getText().length()>0) {
 					buscar();
+					buscarRe();
 					
 				}
 
@@ -88,9 +90,16 @@ public class Busqueda extends JFrame {
 
 				String buscar = txtBuscar.getText();
 				var huespedes = reservar.list(buscar);
-				huespedes.forEach(huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
+				huespedes.forEach(huesped -> modelo1.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
 						huesped.getApellido(), huesped.getFechaNacimiento(), huesped.getPais(), huesped.getTelefono(),
 						huesped.getReserva() }));
+
+			}
+			private void buscarRe() {
+				int id = Integer.valueOf(txtBuscar.getText());
+				var huespedes = reservar.listaReserva(id);
+				huespedes.forEach(huesped -> modelo2.addRow(new Object[] { huesped.getId(), huesped.getFechaEntrada(),
+						huesped.getFechaSalida(), huesped.getValor(),huesped.getMetodoPago()}));
 
 			}
 		});
@@ -132,17 +141,24 @@ public class Busqueda extends JFrame {
 		tbHuespedes = new JTable();
 		tbHuespedes.setFont(new Font("Arial", Font.PLAIN, 14));
 
-		modelo = (DefaultTableModel) tbHuespedes.getModel();
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Apellido");
-		modelo.addColumn("fecha de nacimiento");
-		modelo.addColumn("telefono");
-		modelo.addColumn("Reserva");
+		modelo1 = (DefaultTableModel) tbHuespedes.getModel();
+		modelo1.addColumn("Nombre");
+		modelo1.addColumn("Apellido");
+		modelo1.addColumn("fecha de nacimiento");
+		modelo1.addColumn("telefono");
+		modelo1.addColumn("Reserva");
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes,
 				null);
-
+		
+	
 		JTable tbReservas = new JTable();
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
+		modelo2 = (DefaultTableModel) tbReservas.getModel();
+		modelo2.addColumn("id");
+		modelo2.addColumn("fecha entrada");
+		modelo2.addColumn("fecha de salida");
+		modelo2.addColumn("telefono");
+		modelo2.addColumn("id_pago");
 		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas,
 				null);
 
@@ -151,7 +167,7 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBackground(SystemColor.menu);
 		btnEliminar.setBounds(651, 416, 54, 41);
 		contentPane.add(btnEliminar);
-
+		
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cancelar.png")));
 		btnCancelar.setBackground(SystemColor.menu);
@@ -168,8 +184,13 @@ public class Busqueda extends JFrame {
 	private void cargarTabla() {
 
 		var huespedes = this.reservar.listcompleta();
-		huespedes.forEach(huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
+		huespedes.forEach(huesped -> modelo1.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
 				huesped.getApellido(), huesped.getFechaNacimiento(), huesped.getPais(), huesped.getTelefono(),
 				huesped.getReserva() }));
+	}
+	private void cargarTablaReserva() {
+		var huespedes = this.reservar.listaReserva();
+		huespedes.forEach(huesped -> modelo2.addRow(new Object[] { huesped.getId(), huesped.getFechaEntrada(),
+				huesped.getFechaSalida(), huesped.getValor(),huesped.getMetodoPago()}));
 	}
 }

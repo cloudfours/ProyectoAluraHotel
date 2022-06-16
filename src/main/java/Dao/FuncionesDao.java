@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import com.mysql.cj.protocol.Resultset;
 
 import co.proyecto.alura.pruebaConexion.ConexionPool;
+import co.proyectoAlura.Modelo.Huesped;
 import co.proyectoAlura.Modelo.ReservasLogic;
 import co.proyectoAlura.Modelo.Usuario;
 
@@ -91,5 +92,51 @@ public class FuncionesDao {
 				System.out.println(String.format("Fue insertado el reserva %s: ", result.toString()));
 			}
 		}
+	}
+	//este busca por id de la tabla reservas
+	public List<ReservasLogic>listaReservaConParametro(int id){
+		List<ReservasLogic>resultado = new ArrayList<>();
+		try {
+			final PreparedStatement statement = con.prepareStatement("select id,fecha_entrada,fecha_salida,valor,id_pago from reservas where id =?");
+			try(statement){
+				statement.setInt(1, id);
+				final ResultSet resulset = statement.executeQuery();
+				try(resulset){
+					while(resulset.next()) {		
+						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getDate("fecha_entrada"),resulset.getDate("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
+						resultado.add(huesped);
+					}
+				}
+			}catch(SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(resultado);
+		return resultado;	
+	}
+	//este carga la tabla
+	public List<ReservasLogic>listaReserva(){
+		List<ReservasLogic>resultado = new ArrayList<>();
+		try {
+			final PreparedStatement statement = con.prepareStatement("select id,fecha_entrada,fecha_salida,valor,id_pago from reservas");
+			try(statement){
+				final ResultSet resulset = statement.executeQuery();
+				try(resulset){
+					while(resulset.next()) {
+						
+						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getDate("fecha_entrada"),resulset.getDate("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
+						resultado.add(huesped);
+					}
+				}
+			}catch(SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(resultado);
+		return resultado;	
 	}
 }

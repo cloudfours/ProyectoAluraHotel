@@ -58,7 +58,7 @@ public class RegistroHuesped extends JFrame {
 				try {
 				
 					RegistroHuesped frame = new RegistroHuesped();
-					frame.mostrar();
+					
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -141,10 +141,7 @@ public class RegistroHuesped extends JFrame {
 		JButton btnGuardar = new JButton("");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				   int numeroReserva = reservar.mostrarReserva();
-					hue.setReserva(numeroReserva);
-					int reservasHues = hue.getReserva();
-                   txtNreserva.setText(String.valueOf(reservasHues));
+			
 				guardarHuesped();
 				
 			}
@@ -228,7 +225,9 @@ public class RegistroHuesped extends JFrame {
 		txtNreserva.setBounds(576, 480, 255, 33);
 		txtNreserva.setEnabled(false);
 		contentPane.add(txtNreserva);
+		mostrar();
 	}
+	
 	public void mostrar() {
 		 int numeroReserva = reservar.mostrarReserva();
 			hue.setReserva(numeroReserva);

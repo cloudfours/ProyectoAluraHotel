@@ -40,5 +40,12 @@ public class reservaController {
 		return daoRe.listaHuesped();	
 		}
 	
+	public List<ReservasLogic>listaReserva(){
+		return dao.listaReserva();
+	}
+	public List<ReservasLogic>listaReserva(int id){
+		return dao.listaReservaConParametro(id);
+	}
+
 
 }

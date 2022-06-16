@@ -56,7 +56,7 @@ public class Reservas extends JFrame {
 				try {
 					
 					Reservas frame = new Reservas();
-					
+			
 					frame.setVisible(true);
 		            
 				} catch (Exception e) {
@@ -147,9 +147,31 @@ public class Reservas extends JFrame {
 
 		JButton btnReservar = new JButton("Continuar");
 		btnReservar.addActionListener(new ActionListener() {
+			public void mostrar(){
+				java.util.Date fechaSalida = txtFechaS.getDate();
+				java.util.Date fechaEntrada = txtFechaE.getDate();
+
+				@SuppressWarnings("deprecation")
+				Date converFechaEntrada = new Date(fechaEntrada.getYear(), fechaEntrada.getMonth(),
+						fechaEntrada.getDay());
+				
+				@SuppressWarnings("deprecation")
+				Date converFechaSalida = new Date(fechaSalida.getYear(), fechaSalida.getMonth(), fechaSalida.getDay());
+				SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
+				String dateone = formato.format(fechaSalida);
+				String dateTwo = formato.format(fechaEntrada);
+				LocalDate dataFechaEn = LocalDate.parse(dateone);
+				LocalDate dataFechaSa = LocalDate.parse(dateTwo);
+				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn)*-1;
+				logic.setValor(4500);
+				float valores = logic.getValor() * (int) dataDate;
+				txtValor.setText(String.valueOf(valores));
+			
+			
+				}	
 			
 			public void actionPerformed(ActionEvent e) {
-
+				mostrar();
 				
 				guardar();
 
@@ -173,9 +195,11 @@ public class Reservas extends JFrame {
 				java.util.Date fechaSalida = txtFechaS.getDate();
 				java.util.Date fechaEntrada = txtFechaE.getDate();
 
+				@SuppressWarnings("deprecation")
 				Date converFechaEntrada = new Date(fechaEntrada.getYear(), fechaEntrada.getMonth(),
 						fechaEntrada.getDay());
-
+				
+				@SuppressWarnings("deprecation")
 				Date converFechaSalida = new Date(fechaSalida.getYear(), fechaSalida.getMonth(), fechaSalida.getDay());
 				SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
 				String dateone = formato.format(fechaSalida);
@@ -194,6 +218,7 @@ public class Reservas extends JFrame {
 			
 
 			}
+				
 			}
 		});
 		
@@ -242,5 +267,6 @@ public class Reservas extends JFrame {
 			}
 		});
 	}
+	
 	
 }

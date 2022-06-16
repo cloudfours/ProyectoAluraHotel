@@ -32,6 +32,15 @@ public class ReservasLogic {
 		this.valor = valor;
 
 	}
+	public ReservasLogic(int id,Date fechaEntrada, Date fechaSalida, float valor, int idPago) {
+
+		this.fechaEntrada = fechaEntrada;
+		this.fechaSalida = fechaSalida;
+		this.valor = valor;
+		this.id = id;
+		this.metodoPago = idPago;
+
+	}
 
 	public Date getFechaEntrada() {
 		return fechaEntrada;
