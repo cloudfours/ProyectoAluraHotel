@@ -6,11 +6,16 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import co.proyecto.controller.reservaController;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -26,7 +31,10 @@ public class Busqueda extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
-
+	private DefaultTableModel modelo;
+	private reservaController reservar = new reservaController();
+	 private Dimension dim;
+	 
 	/**
 	 * Launch the application.
 	 */
@@ -49,40 +57,60 @@ public class Busqueda extends JFrame {
 	public Busqueda() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Busqueda.class.getResource("/imagenes/lupa2.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 910, 516);
+		setBounds(100, 100, 1010, 816);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
-		
+	
+
 		txtBuscar = new JTextField();
 		txtBuscar.setBounds(647, 85, 158, 31);
 		contentPane.add(txtBuscar);
-		txtBuscar.setColumns(10);
-		
+		txtBuscar.setColumns(9);
+
 		JButton btnBuscar = new JButton("");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				if (txtBuscar.getText().length()==0) {
+					cargarTabla();
+					
+				} else if(txtBuscar.getText().length()>0) {
+					buscar();
+					
+				}
+
+			}
+
+			private void buscar() {
+
+				String buscar = txtBuscar.getText();
+				var huespedes = reservar.list(buscar);
+				huespedes.forEach(huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
+						huesped.getApellido(), huesped.getFechaNacimiento(), huesped.getPais(), huesped.getTelefono(),
+						huesped.getReserva() }));
+
 			}
 		});
 		btnBuscar.setBackground(Color.WHITE);
 		btnBuscar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/lupa2.png")));
 		btnBuscar.setBounds(815, 75, 54, 41);
 		contentPane.add(btnBuscar);
-		
+
 		JButton btnEditar = new JButton("");
 		btnEditar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/editar-texto.png")));
 		btnEditar.setBackground(SystemColor.menu);
 		btnEditar.setBounds(587, 416, 54, 41);
 		contentPane.add(btnEditar);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Sistema de Búsqueda");
 		lblNewLabel_4.setForeground(new Color(12, 138, 199));
 		lblNewLabel_4.setFont(new Font("Arial", Font.BOLD, 24));
 		lblNewLabel_4.setBounds(155, 42, 258, 42);
 		contentPane.add(lblNewLabel_4);
-		
+
 		JButton btnSalir = new JButton("");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,35 +124,52 @@ public class Busqueda extends JFrame {
 		btnSalir.setBackground(Color.WHITE);
 		btnSalir.setBounds(815, 416, 54, 41);
 		contentPane.add(btnSalir);
-		
+
 		JTabbedPane panel = new JTabbedPane(JTabbedPane.TOP);
-		panel.setBounds(10, 127, 874, 265);
+		panel.setBounds(10, 127, 1074, 265);
 		contentPane.add(panel);
-		
+
 		tbHuespedes = new JTable();
 		tbHuespedes.setFont(new Font("Arial", Font.PLAIN, 14));
-		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes, null);
-		
+
+		modelo = (DefaultTableModel) tbHuespedes.getModel();
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Apellido");
+		modelo.addColumn("fecha de nacimiento");
+		modelo.addColumn("telefono");
+		modelo.addColumn("Reserva");
+		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes,
+				null);
+
 		JTable tbReservas = new JTable();
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
-		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas, null);
-		
+		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas,
+				null);
+
 		JButton btnEliminar = new JButton("");
 		btnEliminar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/deletar.png")));
 		btnEliminar.setBackground(SystemColor.menu);
 		btnEliminar.setBounds(651, 416, 54, 41);
 		contentPane.add(btnEliminar);
-		
+
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cancelar.png")));
 		btnCancelar.setBackground(SystemColor.menu);
 		btnCancelar.setBounds(713, 416, 54, 41);
 		contentPane.add(btnCancelar);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
 		lblNewLabel_2.setBounds(25, 10, 104, 107);
 		contentPane.add(lblNewLabel_2);
 		setResizable(false);
+	}
+
+	private void cargarTabla() {
+
+		var huespedes = this.reservar.listcompleta();
+		huespedes.forEach(huesped -> modelo.addRow(new Object[] { huesped.getId(), huesped.getNombre(),
+				huesped.getApellido(), huesped.getFechaNacimiento(), huesped.getPais(), huesped.getTelefono(),
+				huesped.getReserva() }));
 	}
 }

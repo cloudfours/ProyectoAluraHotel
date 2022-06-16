@@ -54,14 +54,24 @@ public class Reservas extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					
 					Reservas frame = new Reservas();
+					
 					frame.setVisible(true);
+		            
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
+
+			
 		});
 	}
+	
+	
+
+	
+	
 
 	/**
 	 * Create the frame.
@@ -137,7 +147,7 @@ public class Reservas extends JFrame {
 
 		JButton btnReservar = new JButton("Continuar");
 		btnReservar.addActionListener(new ActionListener() {
-
+			
 			public void actionPerformed(ActionEvent e) {
 
 				
@@ -175,7 +185,6 @@ public class Reservas extends JFrame {
 				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn);
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
-
 				txtValor.setText(String.valueOf(valores));
 				var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, valores);
 				var metodoPago = (MetodoPago) txtFormaPago.getSelectedItem();
@@ -187,6 +196,7 @@ public class Reservas extends JFrame {
 			}
 			}
 		});
+		
 		btnReservar.setForeground(Color.WHITE);
 		btnReservar.setBounds(183, 436, 140, 33);
 		btnReservar.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/calendario.png")));
@@ -210,8 +220,9 @@ public class Reservas extends JFrame {
 		lblNewLabel_2.setIcon(new ImageIcon(Reservas.class.getResource("/imagenes/Ha-100px.png")));
 		lblNewLabel_2.setBounds(15, 6, 104, 107);
 		panel.add(lblNewLabel_2);
+		
 	}
-
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -231,4 +242,5 @@ public class Reservas extends JFrame {
 			}
 		});
 	}
+	
 }

@@ -43,24 +43,29 @@ public class RegistroHuesped extends JFrame {
 	private JTextField txtTelefono;
 	private JTextField txtNreserva;
 	private PaisController pais = new PaisController();
-	reservaController reservar = new reservaController();
-	Huesped hue = new Huesped();
-	
-	Exito exito = new Exito();
+	private reservaController reservar = new reservaController();
+	private Huesped hue = new Huesped();
+	private Exito exito = new Exito();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
+				
 					RegistroHuesped frame = new RegistroHuesped();
+					frame.mostrar();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
+			
 		});
 	}
 
@@ -132,14 +137,16 @@ public class RegistroHuesped extends JFrame {
 		btnCancelar.setBackground(SystemColor.menu);
 		btnCancelar.setBounds(764, 543, 54, 41);
 		contentPane.add(btnCancelar);
-
+		 
 		JButton btnGuardar = new JButton("");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				   int numeroReserva = reservar.mostrarReserva();
+					hue.setReserva(numeroReserva);
+					int reservasHues = hue.getReserva();
+                   txtNreserva.setText(String.valueOf(reservasHues));
 				guardarHuesped();
-			
-			
+				
 			}
 
 			private void guardarHuesped() {
@@ -155,12 +162,12 @@ public class RegistroHuesped extends JFrame {
 					exito.setVisible(true);
 					dispose();
 					java.util.Date fechaNac = txtFechaN.getDate();
-					Date fechaNaci = new Date(fechaNac.getYear(), fechaNac.getMonth(), fechaNac.getDay());
-					int numeroReserva = reservar.mostrarReserva();
+					Date fechaNaci = new Date(fechaNac.getYear(), fechaNac.getMonth(), fechaNac.getDay());	
+                    int telefono = Integer.parseInt(txtTelefono.getText());
+                    int numeroReserva = reservar.mostrarReserva();
 					hue.setReserva(numeroReserva);
 					int reservasHues = hue.getReserva();
-					txtNreserva.setText(String.valueOf(reservasHues));
-                    int telefono = Integer.parseInt(txtTelefono.getText());
+                    JOptionPane.showInternalMessageDialog(null,"su reserva es: "+reservasHues);
 					var huesped = new Huesped(txtNombre.getText(), txtApellido.getText(), fechaNaci,telefono, reservasHues);
 					var pais = (Pais) txtNacionalidad.getSelectedItem();
 					reservar.AngendarReserva(huesped, pais.getId());
@@ -174,7 +181,7 @@ public class RegistroHuesped extends JFrame {
 		btnGuardar.setBackground(SystemColor.menu);
 		btnGuardar.setBounds(700, 543, 54, 41);
 		contentPane.add(btnGuardar);
-
+		
 		JButton btnSalir = new JButton("");
 		btnSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -216,10 +223,16 @@ public class RegistroHuesped extends JFrame {
 		contentPane.add(lblNewLabel_1_2_1);
 
 		txtNreserva = new JTextField();
-		txtNreserva.setEnabled(false);
 		txtNreserva.setColumns(10);
 		txtNreserva.setBackground(Color.WHITE);
 		txtNreserva.setBounds(576, 480, 255, 33);
+		txtNreserva.setEnabled(false);
 		contentPane.add(txtNreserva);
+	}
+	public void mostrar() {
+		 int numeroReserva = reservar.mostrarReserva();
+			hue.setReserva(numeroReserva);
+			int reservasHues = hue.getReserva();
+			 txtNreserva.setText(String.valueOf(reservasHues));
 	}
 }

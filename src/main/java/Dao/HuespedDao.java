@@ -83,4 +83,52 @@ public class HuespedDao {
 		}
 	}
 
+	
+	public List<Huesped>listaHuesped(String apellido){
+		List<Huesped>resultado = new ArrayList<>();
+		try {
+			final PreparedStatement statement = con.prepareStatement("select id,nombre,apellido,fecha_de_nacimiento,id_pais,telefono,id_reserver from huespedes where apellido =?");
+			try(statement){
+				statement.setString(1, apellido);
+				final ResultSet resulset = statement.executeQuery();
+				try(resulset){
+					while(resulset.next()) {
+						
+						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getDate("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
+						resultado.add(huesped);
+					}
+				}
+			}catch(SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(resultado);
+		return resultado;	
+	}
+	public List<Huesped>listaHuesped(){
+		List<Huesped>resultado = new ArrayList<>();
+		try {
+			final PreparedStatement statement = con.prepareStatement("SELECT id,nombre,apellido,fecha_de_nacimiento,id_pais,telefono,id_reserver from huespedes ");
+			try(statement){
+				final ResultSet resulset = statement.executeQuery();
+				try(resulset){
+					while(resulset.next()) {
+						
+						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getDate("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
+						resultado.add(huesped);
+					}
+				}
+			}catch(SQLException e) {
+				throw new RuntimeException(e);
+			}
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		System.out.println(resultado);
+		return resultado;	
+	}
+	
+
 }

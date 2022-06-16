@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -31,6 +32,13 @@ public class reservaController {
 		huesped.setPais(pais);
 		this.daoRe.AgendarReservars(huesped);
 	}
+	
+	public List<Huesped>list(String apellido){
+	return daoRe.listaHuesped(apellido);	
+	}
+	public List<Huesped>listcompleta(){
+		return daoRe.listaHuesped();	
+		}
 	
 
 }
