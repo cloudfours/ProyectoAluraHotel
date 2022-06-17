@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import Dao.EditarDao;
 import Dao.FuncionesDao;
 import Dao.HuespedDao;
 import co.proyecto.alura.pruebaConexion.ConexionPool;
@@ -18,34 +19,43 @@ import co.proyectoAlura.Modelo.ReservasLogic;
 public class reservaController {
 	private FuncionesDao dao = new FuncionesDao(new ConexionPool().crearConexion());
 	private HuespedDao daoRe = new HuespedDao(new ConexionPool().crearConexion());
+	private EditarDao daoEdit = new EditarDao(new ConexionPool().crearConexion());
 
 	public void guardarReserva(ReservasLogic reserva, int metodoPago) {
 		reserva.setMetodoPago(metodoPago);
 		dao.AgendarReservars(reserva);
 
 	}
+
 	public int mostrarReserva() {
 		return daoRe.lista();
 	}
-	
-	public void AngendarReserva(Huesped huesped,int pais) {
+
+	public void AngendarReserva(Huesped huesped, int pais) {
 		huesped.setPais(pais);
 		this.daoRe.AgendarReservars(huesped);
 	}
-	
-	public List<Huesped>list(String apellido){
-	return daoRe.listaHuesped(apellido);	
+
+	public List<Huesped> list(String apellido) {
+		return daoRe.listaHuesped(apellido);
 	}
-	public List<Huesped>listcompleta(){
-		return daoRe.listaHuesped();	
-		}
-	
-	public List<ReservasLogic>listaReserva(){
+
+	public List<Huesped> listcompleta() {
+		return daoRe.listaHuesped();
+	}
+
+	public List<ReservasLogic> listaReserva() {
 		return dao.listaReserva();
 	}
-	public List<ReservasLogic>listaReserva(int id){
+
+	public List<ReservasLogic> listaReserva(int id) {
 		return dao.listaReservaConParametro(id);
 	}
 
+	public int modificar(int id, String nombre, String apellido, Date fechaNacimiento, int telefono, int idPais,
+			int idReserva) {
+		return daoEdit.modificar(id, nombre, apellido, fechaNacimiento, telefono, idPais, idReserva);
+
+	}
 
 }

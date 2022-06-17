@@ -24,7 +24,7 @@ public class EditarDao {
 					statement.setInt(0, id);
 					statement.setString(1, nombre);
 					statement.setString(2, apellido);
-					statement.setDate(3, fechaNacimiento);
+					statement.setDate(3,  fechaNacimiento);
 					statement.setInt(4, idPais);
 					statement.setInt(5, telefono);
 					statement.setInt(6, idReserva);
