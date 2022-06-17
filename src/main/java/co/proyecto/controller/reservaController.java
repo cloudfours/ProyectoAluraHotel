@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import Dao.EditarDao;
+import Dao.EliminarDao;
 import Dao.FuncionesDao;
 import Dao.HuespedDao;
 import co.proyecto.alura.pruebaConexion.ConexionPool;
@@ -20,6 +21,7 @@ public class reservaController {
 	private FuncionesDao dao = new FuncionesDao(new ConexionPool().crearConexion());
 	private HuespedDao daoRe = new HuespedDao(new ConexionPool().crearConexion());
 	private EditarDao daoEdit = new EditarDao(new ConexionPool().crearConexion());
+	private EliminarDao daoEl = new EliminarDao(new ConexionPool().crearConexion());
 
 	public void guardarReserva(ReservasLogic reserva, int metodoPago) {
 		reserva.setMetodoPago(metodoPago);
@@ -52,10 +54,16 @@ public class reservaController {
 		return dao.listaReservaConParametro(id);
 	}
 
-	public int modificar(int id, String nombre, String apellido, Date fechaNacimiento, int telefono, int idPais,
-			int idReserva) {
-		return daoEdit.modificar(id, nombre, apellido, fechaNacimiento, telefono, idPais, idReserva);
+	public int modificar(String nombre, String apellido, String fechaNacimiento, Integer idPais, Integer telefono,
+			Integer idReserva, Integer id) {
+		return EditarDao.modificar(nombre, apellido, fechaNacimiento, idPais, telefono, idReserva, id);
 
 	}
-
+	public int eliminar(Integer id) {
+	return this.daoEl.eliminar(id);
+	}
+	public  int modificarRe( String fechaEntreada,String Fechasalida, Float valor,  Integer idPago,
+			int id) {
+		return daoEdit.modificarRe(fechaEntreada, Fechasalida, valor, idPago, id);
+	}
 }

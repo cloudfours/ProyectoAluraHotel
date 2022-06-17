@@ -45,7 +45,7 @@ public class HuespedDao {
 
 		statement.setString(1, huesped.getNombre());
 		statement.setString(2, huesped.getApellido());
-		statement.setDate(3, huesped.getFechaNacimiento());
+		statement.setString(3, huesped.getFechaNacimiento());
 		statement.setInt(4, huesped.getPais());
 		statement.setInt(5, huesped.getTelefono());
 		statement.setInt(6, huesped.getReserva());
@@ -95,7 +95,7 @@ public class HuespedDao {
 				try(resulset){
 					while(resulset.next()) {
 						
-						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getDate("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
+						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getString("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
 						resultado.add(huesped);
 					}
 				}
@@ -117,7 +117,7 @@ public class HuespedDao {
 				try(resulset){
 					while(resulset.next()) {
 						
-						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getDate("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
+						var  huesped = new Huesped(resulset.getInt("id"), resulset.getString("nombre"),resulset.getString("apellido"),resulset.getString("fecha_de_nacimiento"),resulset.getInt("id_pais"),resulset.getInt("telefono"),resulset.getInt("id_reserver"));
 						resultado.add(huesped);
 					}
 				}

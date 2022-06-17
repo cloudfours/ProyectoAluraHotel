@@ -1,41 +1,28 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-
 import co.proyecto.controller.reservaController;
 
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.SystemColor;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.awt.event.ActionEvent;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JDesktopPane;
-import java.awt.Toolkit;
 
 public class Busqueda extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
+	private JTable tbReservas = new JTable();
 	private DefaultTableModel modelo1;
 	private DefaultTableModel modelo2;
 	private reservaController reservar = new reservaController();
@@ -79,9 +66,9 @@ public class Busqueda extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (txtBuscar.getText().length() == 0) {
-					cargarTabla();
-					cargarTablaReserva();
+					
 				} else if (txtBuscar.getText().length() > 0) {
+
 					buscar();
 					buscarRe();
 
@@ -120,7 +107,16 @@ public class Busqueda extends JFrame {
 
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				editarHuesped();
+				limpiarTabla();
+				try {
+					cargarTabla();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 
 		});
@@ -163,13 +159,13 @@ public class Busqueda extends JFrame {
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes,
 				null);
 
-		JTable tbReservas = new JTable();
+	
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
 		modelo2 = (DefaultTableModel) tbReservas.getModel();
 		modelo2.addColumn("id");
 		modelo2.addColumn("fecha entrada");
 		modelo2.addColumn("fecha de salida");
-		modelo2.addColumn("telefono");
+		modelo2.addColumn("valor");
 		modelo2.addColumn("id_pago");
 		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas,
 				null);
@@ -179,7 +175,20 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBackground(SystemColor.menu);
 		btnEliminar.setBounds(651, 416, 54, 41);
 		contentPane.add(btnEliminar);
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				eliminar();
 
+				try {
+
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+
+		});
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cancelar.png")));
 		btnCancelar.setBackground(SystemColor.menu);
@@ -210,24 +219,83 @@ public class Busqueda extends JFrame {
 	private boolean seleccionCasilla() {
 		return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedRowCount() == 0;
 	}
-
+  
 	private void editarHuesped() {
 		if (seleccionCasilla()) {
 			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
 			return;
 		}
-		Optional.ofNullable(modelo2.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+		Optional.ofNullable(modelo1.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
 				.ifPresentOrElse(fila -> {
-					int id = Integer.valueOf(modelo2.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
-					String nombre = (String) modelo2.getValueAt(tbHuespedes.getSelectedRow(), 1);
-					String apellido = (String) modelo2.getValueAt(tbHuespedes.getSelectedRow(), 2);
-					String fechaNacimiento = modelo2.getValueAt(tbHuespedes.getSelectedRow(), 3).toString();
-					int idPais = Integer.valueOf(modelo2.getValueAt(tbHuespedes.getSelectedRow(), 4).toString());
-					int telefono = Integer.valueOf(modelo2.getValueAt(tbHuespedes.getSelectedRow(), 5).toString());
-					int idReserva = Integer.valueOf(modelo2.getValueAt(tbHuespedes.getSelectedRow(), 6).toString());
-                    Date nac = Date.valueOf(fechaNacimiento);
-					reservar.modificar(id, nombre, apellido, nac, telefono, idPais, idReserva);
+					try {
+						Integer id = Integer.valueOf(modelo1.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+						String nombre = (String) modelo1.getValueAt(tbHuespedes.getSelectedRow(), 1);
+						String apellido = (String) modelo1.getValueAt(tbHuespedes.getSelectedRow(), 2);
+						String fechaNacimiento = modelo1.getValueAt(tbHuespedes.getSelectedRow(), 3).toString();
+						Integer idPais = Integer
+								.valueOf(modelo1.getValueAt(tbHuespedes.getSelectedRow(), 4).toString());
+						Integer telefono = Integer
+								.valueOf(modelo1.getValueAt(tbHuespedes.getSelectedRow(), 5).toString());
+						Integer idReserva = Integer
+								.valueOf(modelo1.getValueAt(tbHuespedes.getSelectedRow(), 6).toString());
 
+						reservar.modificar(nombre, apellido, fechaNacimiento, idPais, telefono, idReserva, id);
+
+					} catch (NumberFormatException e) {
+						System.out.println("error" + e);
+					}
 				}, () -> JOptionPane.showMessageDialog(null, "por favor elija item"));
+
+	}
+	private boolean seleccionCasillas() {
+		return tbReservas.getSelectedRowCount() == 0 || tbReservas.getSelectedRowCount() == 0;
+	}
+  
+	private void editarReser() {
+		if (seleccionCasillas()) {
+			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
+			return;
+		}
+		Optional.ofNullable(modelo2.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+				.ifPresentOrElse(fila -> {
+					try {
+						Integer id = Integer.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+						String fechaEn = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 1);
+						String fechaSa = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 2);
+						float valor = Float.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 3).toString());
+						Integer idPago = Integer
+								.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 4).toString());
+	
+
+						reservar.modificarRe(fechaEn, fechaSa, valor, idPago, id);
+
+					} catch (NumberFormatException e) {
+						System.out.println("error" + e);
+					}
+				}, () -> JOptionPane.showMessageDialog(null, "por favor elija item"));
+
+	}
+
+	private boolean tieneFilaElegida() {
+		return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedRowCount() == 0;
+	}
+
+	private void eliminar() {
+		if (tieneFilaElegida()) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+			return;
+		}
+		Optional.ofNullable(modelo1.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+				.ifPresentOrElse(fila -> {
+					Integer id = Integer.valueOf(modelo1.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+					int cantidadEliminada;
+					cantidadEliminada = this.reservar.eliminar(id);
+					modelo1.removeRow(tbHuespedes.getSelectedRow());
+					JOptionPane.showMessageDialog(this, cantidadEliminada + " Item eliminado con éxito!");
+				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+	}
+
+	private void limpiarTabla() {
+		tbHuespedes.clearSelection();
 	}
 }

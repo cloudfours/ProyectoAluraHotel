@@ -6,13 +6,13 @@ public class Huesped {
 
 	private String nombre;
 	private String apellido;
-	private Date fechaNacimiento;
-	private int pais;
-	private int telefono;
-	private int reserva;
-	private int id;
+	private String fechaNacimiento;
+	private Integer pais;
+	private Integer telefono;
+	private Integer reserva;
+	private Integer id;
 
-	public Huesped(String nombre, String apellido, Date fechaNacimiento, int telefono, int reserva) {
+	public Huesped(String nombre, String apellido, String fechaNacimiento, Integer telefono, Integer reserva) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
@@ -20,8 +20,8 @@ public class Huesped {
 		this.reserva = reserva;
 	}
 
-	public Huesped(int id, String nombre, String apellido, Date fechaNacimiento, int idPais, int telefono,
-			int reserva) {
+	public Huesped(int id,String nombre, String apellido, String fechaNacimiento, Integer idPais, Integer telefono, Integer reserva
+			) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
@@ -43,7 +43,7 @@ public class Huesped {
 		return apellido;
 	}
 
-	public Date getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -55,11 +55,11 @@ public class Huesped {
 		this.pais = pais;
 	}
 
-	public int getTelefono() {
+	public Integer getTelefono() {
 		return telefono;
 	}
 
-	public int getReserva() {
+	public Integer getReserva() {
 		return reserva;
 	}
 
@@ -67,7 +67,7 @@ public class Huesped {
 		this.reserva = reserva;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

@@ -209,8 +209,8 @@ public class Reservas extends JFrame {
 				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn);
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
-				txtValor.setText(String.valueOf(valores));
-				var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, valores);
+				txtValor.setText(String.valueOf(Math.abs(valores)));
+				var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, Math.abs(valores));
 				var metodoPago = (MetodoPago) txtFormaPago.getSelectedItem();
 				reservaController crear = new reservaController();
 				reserva.setMetodoPago(metodoPago.getId());

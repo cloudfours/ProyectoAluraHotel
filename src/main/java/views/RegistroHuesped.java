@@ -1,39 +1,17 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import java.awt.Color;
-import com.toedter.calendar.JDateChooser;
-
-import Dao.PaisDao;
 import co.proyecto.controller.PaisController;
 import co.proyecto.controller.reservaController;
 import co.proyectoAlura.Modelo.Huesped;
-import co.proyectoAlura.Modelo.MetodoPago;
 import co.proyectoAlura.Modelo.Pais;
-import co.proyectoAlura.Modelo.ReservasLogic;
+import com.toedter.calendar.JDateChooser;
 
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.SystemColor;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.awt.event.ActionEvent;
-import java.awt.Toolkit;
 
 public class RegistroHuesped extends JFrame {
 
@@ -159,13 +137,14 @@ public class RegistroHuesped extends JFrame {
 					exito.setVisible(true);
 					dispose();
 					java.util.Date fechaNac = txtFechaN.getDate();
-					Date fechaNaci = new Date(fechaNac.getYear(), fechaNac.getMonth(), fechaNac.getDay());	
+					Date fechaNaci = new Date(fechaNac.getYear(), fechaNac.getMonth(), fechaNac.getDay());
+					String fecha = String.valueOf(fechaNaci);
                     int telefono = Integer.parseInt(txtTelefono.getText());
                     int numeroReserva = reservar.mostrarReserva();
 					hue.setReserva(numeroReserva);
 					int reservasHues = hue.getReserva();
                     JOptionPane.showInternalMessageDialog(null,"su reserva es: "+reservasHues);
-					var huesped = new Huesped(txtNombre.getText(), txtApellido.getText(), fechaNaci,telefono, reservasHues);
+					var huesped = new Huesped(txtNombre.getText(), txtApellido.getText(), fecha,telefono, reservasHues);
 					var pais = (Pais) txtNacionalidad.getSelectedItem();
 					reservar.AngendarReserva(huesped, pais.getId());
 					
