@@ -79,8 +79,8 @@ public class FuncionesDao {
 
 	public void ejecutarReserva(ReservasLogic reserva, PreparedStatement statement) throws SQLException {
 	
-		statement.setDate(1, reserva.getFechaEntrada());
-		statement.setDate(2, reserva.getFechaSalida());
+		statement.setString(1, reserva.getFechaEntrada());
+		statement.setString(2, reserva.getFechaSalida());
 		statement.setFloat(3, reserva.getValor());
 		statement.setInt(4, reserva.getMetodoPago());
 		final ResultSet result = statement.getGeneratedKeys();
@@ -103,7 +103,7 @@ public class FuncionesDao {
 				final ResultSet resulset = statement.executeQuery();
 				try(resulset){
 					while(resulset.next()) {		
-						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getDate("fecha_entrada"),resulset.getDate("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
+						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getString("fecha_entrada"),resulset.getString("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
 						resultado.add(huesped);
 					}
 				}
@@ -126,7 +126,7 @@ public class FuncionesDao {
 				try(resulset){
 					while(resulset.next()) {
 						
-						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getDate("fecha_entrada"),resulset.getDate("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
+						var  huesped = new ReservasLogic(resulset.getInt("id"), resulset.getString("fecha_entrada"),resulset.getString("fecha_salida"),resulset.getFloat("valor"),resulset.getInt("id_pago"));
 						resultado.add(huesped);
 					}
 				}

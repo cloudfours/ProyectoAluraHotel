@@ -66,7 +66,7 @@ public class Busqueda extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				if (txtBuscar.getText().length() == 0) {
-					
+
 				} else if (txtBuscar.getText().length() > 0) {
 
 					buscar();
@@ -107,16 +107,12 @@ public class Busqueda extends JFrame {
 
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				editarHuesped();
-				limpiarTabla();
-				try {
-					cargarTabla();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+
+				if (tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount()) {
+					editarReser();
+				} else if (tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount()) {
+					editarHuesped();
 				}
-				
 			}
 
 		});
@@ -151,15 +147,17 @@ public class Busqueda extends JFrame {
 		tbHuespedes.setFont(new Font("Arial", Font.PLAIN, 14));
 
 		modelo1 = (DefaultTableModel) tbHuespedes.getModel();
+		modelo1.addColumn("identificacion");
 		modelo1.addColumn("Nombre");
 		modelo1.addColumn("Apellido");
 		modelo1.addColumn("fecha de nacimiento");
+		modelo1.addColumn("pais");
 		modelo1.addColumn("telefono");
 		modelo1.addColumn("Reserva");
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/persona.png")), tbHuespedes,
 				null);
 
-	
+		cargarTabla();
 		tbReservas.setFont(new Font("Arial", Font.PLAIN, 14));
 		modelo2 = (DefaultTableModel) tbReservas.getModel();
 		modelo2.addColumn("id");
@@ -169,7 +167,7 @@ public class Busqueda extends JFrame {
 		modelo2.addColumn("id_pago");
 		panel.addTab("ReservasLogic", new ImageIcon(Busqueda.class.getResource("/imagenes/calendario.png")), tbReservas,
 				null);
-
+		cargarTablaReserva();
 		JButton btnEliminar = new JButton("");
 		btnEliminar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/deletar.png")));
 		btnEliminar.setBackground(SystemColor.menu);
@@ -177,24 +175,28 @@ public class Busqueda extends JFrame {
 		contentPane.add(btnEliminar);
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				eliminar();
 
-				try {
-
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
+					eliminarReserva();
+				
+					eliminarHuesped();
+				
 
 			}
 
 		});
+
 		JButton btnCancelar = new JButton("");
 		btnCancelar.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/cancelar.png")));
 		btnCancelar.setBackground(SystemColor.menu);
 		btnCancelar.setBounds(713, 416, 54, 41);
 		contentPane.add(btnCancelar);
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limpiarTabla();
+			}
 
+		});
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
 		lblNewLabel_2.setBounds(25, 10, 104, 107);
@@ -219,7 +221,7 @@ public class Busqueda extends JFrame {
 	private boolean seleccionCasilla() {
 		return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedRowCount() == 0;
 	}
-  
+	//cada vez que seleccione una casilla en la columna me lee toda la fila me la edita;
 	private void editarHuesped() {
 		if (seleccionCasilla()) {
 			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
@@ -247,10 +249,11 @@ public class Busqueda extends JFrame {
 				}, () -> JOptionPane.showMessageDialog(null, "por favor elija item"));
 
 	}
+
 	private boolean seleccionCasillas() {
 		return tbReservas.getSelectedRowCount() == 0 || tbReservas.getSelectedRowCount() == 0;
 	}
-  
+	//cada vez que seleccione una casilla en la columna me lee toda la fila me la edita;
 	private void editarReser() {
 		if (seleccionCasillas()) {
 			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
@@ -260,12 +263,10 @@ public class Busqueda extends JFrame {
 				.ifPresentOrElse(fila -> {
 					try {
 						Integer id = Integer.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 0).toString());
-						String fechaEn = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 1);
-						String fechaSa = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 2);
+						String fechaEn = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 1).toString();
+						String fechaSa = (String) modelo2.getValueAt(tbReservas.getSelectedRow(), 2).toString();
 						float valor = Float.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 3).toString());
-						Integer idPago = Integer
-								.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 4).toString());
-	
+						Integer idPago = Integer.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 4).toString());
 
 						reservar.modificarRe(fechaEn, fechaSa, valor, idPago, id);
 
@@ -275,14 +276,10 @@ public class Busqueda extends JFrame {
 				}, () -> JOptionPane.showMessageDialog(null, "por favor elija item"));
 
 	}
-
-	private boolean tieneFilaElegida() {
-		return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedRowCount() == 0;
-	}
-
-	private void eliminar() {
-		if (tieneFilaElegida()) {
-			JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+	//cada vez que seleccione una casilla en la columna me lee toda la fila me la elimina;
+	private void eliminarHuesped() {
+		if (seleccionCasilla()) {
+			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
 			return;
 		}
 		Optional.ofNullable(modelo1.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
@@ -296,6 +293,19 @@ public class Busqueda extends JFrame {
 	}
 
 	private void limpiarTabla() {
-		tbHuespedes.clearSelection();
+		modelo1.setColumnCount(0);
 	}
+//cada vez que seleccione una casilla en la columna me lee toda la fila me la elimina;
+	private void eliminarReserva() {
+
+		Optional.ofNullable(modelo2.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+				.ifPresentOrElse(fila -> {
+					Integer id = Integer.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+					int cantidadEliminada;
+					cantidadEliminada = this.reservar.eliminarRe(id);
+					modelo2.removeRow(tbReservas.getSelectedRow());
+					JOptionPane.showMessageDialog(this, cantidadEliminada + " Item eliminado con éxito!");
+				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+	}
+
 }

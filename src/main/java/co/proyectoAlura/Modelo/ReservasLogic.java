@@ -12,8 +12,8 @@ import javax.swing.JOptionPane;
 
 public class ReservasLogic {
 	private int id;
-	private Date fechaEntrada;
-	private Date fechaSalida;
+	private String fechaEntrada;
+	private String fechaSalida;
 	private float valor;
 	private int metodoPago;
 
@@ -25,14 +25,14 @@ public class ReservasLogic {
 		super();
 	}
 
-	public ReservasLogic(Date fechaEntrada, Date fechaSalida, float valor) {
+	public ReservasLogic(String fechaEntrada, String fechaSalida, float valor) {
 
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
 		this.valor = valor;
 
 	}
-	public ReservasLogic(int id,Date fechaEntrada, Date fechaSalida, float valor, int idPago) {
+	public ReservasLogic(int id,String fechaEntrada, String fechaSalida, float valor, int idPago) {
 
 		this.fechaEntrada = fechaEntrada;
 		this.fechaSalida = fechaSalida;
@@ -42,11 +42,11 @@ public class ReservasLogic {
 
 	}
 
-	public Date getFechaEntrada() {
+	public String getFechaEntrada() {
 		return fechaEntrada;
 	}
 
-	public Date getFechaSalida() {
+	public String getFechaSalida() {
 		return fechaSalida;
 	}
 

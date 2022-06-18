@@ -18,10 +18,17 @@ import co.proyectoAlura.Modelo.Huesped;
 import co.proyectoAlura.Modelo.ReservasLogic;
 
 public class reservaController {
-	private FuncionesDao dao = new FuncionesDao(new ConexionPool().crearConexion());
-	private HuespedDao daoRe = new HuespedDao(new ConexionPool().crearConexion());
-	private EditarDao daoEdit = new EditarDao(new ConexionPool().crearConexion());
-	private EliminarDao daoEl = new EliminarDao(new ConexionPool().crearConexion());
+	private FuncionesDao dao;
+	private HuespedDao daoRe;
+	private EditarDao daoEdit;
+	private EliminarDao daoEl;
+
+	public reservaController() {
+		this.dao = new FuncionesDao(new ConexionPool().crearConexion());
+		this.daoRe = new HuespedDao(new ConexionPool().crearConexion());
+		this.daoEdit = new EditarDao(new ConexionPool().crearConexion());
+		this.daoEl = new EliminarDao(new ConexionPool().crearConexion());
+	}
 
 	public void guardarReserva(ReservasLogic reserva, int metodoPago) {
 		reserva.setMetodoPago(metodoPago);
@@ -59,11 +66,16 @@ public class reservaController {
 		return EditarDao.modificar(nombre, apellido, fechaNacimiento, idPais, telefono, idReserva, id);
 
 	}
+
 	public int eliminar(Integer id) {
-	return this.daoEl.eliminar(id);
+		return this.daoEl.eliminar(id);
 	}
-	public  int modificarRe( String fechaEntreada,String Fechasalida, Float valor,  Integer idPago,
-			int id) {
+
+	public int modificarRe(String fechaEntreada, String Fechasalida, Float valor, Integer idPago, int id) {
 		return daoEdit.modificarRe(fechaEntreada, Fechasalida, valor, idPago, id);
+	}
+
+	public int eliminarRe(Integer id) {
+		return this.daoEl.eliminarRe(id);
 	}
 }

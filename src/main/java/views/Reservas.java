@@ -210,7 +210,7 @@ public class Reservas extends JFrame {
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
 				txtValor.setText(String.valueOf(Math.abs(valores)));
-				var reserva = new ReservasLogic(converFechaSalida, converFechaEntrada, Math.abs(valores));
+				var reserva = new ReservasLogic(dateTwo, dateone, Math.abs(valores));
 				var metodoPago = (MetodoPago) txtFormaPago.getSelectedItem();
 				reservaController crear = new reservaController();
 				reserva.setMetodoPago(metodoPago.getId());

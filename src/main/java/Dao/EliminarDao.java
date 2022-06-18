@@ -31,4 +31,21 @@ public class EliminarDao {
 
 		}
 	}
+	public int eliminarRe(Integer id) {
+		final Connection con = new ConexionPool().crearConexion();
+		try {
+			try (con) {
+				final PreparedStatement statement = con.prepareStatement("DELETE  FROM reservas where id = ?");
+				try (statement) {
+					statement.setInt(1, id);
+					statement.execute();
+					return statement.getUpdateCount();// cuantas filas fueron modificadas
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+
+		}
+	}
 }
