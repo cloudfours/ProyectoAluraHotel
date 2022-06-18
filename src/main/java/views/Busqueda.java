@@ -65,10 +65,13 @@ public class Busqueda extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				
+				if (tbHuespedes.isVisible()) {
 					buscar();
-
-				
+					limpiarTablaHuespedes();
+				} else if (tbReservas.isVisible()) {
+					buscarRe();
+					limpiarTablaReserva();
+				}
 
 			}
 
@@ -109,7 +112,6 @@ public class Busqueda extends JFrame {
 					editarReser();
 					editarHuesped();
 				} else {
-					
 
 				}
 			}
@@ -177,6 +179,7 @@ public class Busqueda extends JFrame {
 
 				if ((tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount())
 						|| (tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount())) {
+
 					eliminarHuesped();
 					eliminarReserva();
 				} else {
@@ -193,7 +196,7 @@ public class Busqueda extends JFrame {
 		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				limpiarTabla();
+
 			}
 
 		});
@@ -202,6 +205,18 @@ public class Busqueda extends JFrame {
 		lblNewLabel_2.setBounds(25, 10, 104, 107);
 		contentPane.add(lblNewLabel_2);
 		setResizable(false);
+	}
+
+	private void limpiarTablaHuespedes() {
+		modelo1.getDataVector().clear();
+		;
+
+	}
+
+	private void limpiarTablaReserva() {
+		modelo2.getDataVector().clear();
+		;
+
 	}
 
 	// me carga la tabla que me instancia a travez de la clase reservacrontoller por
@@ -298,10 +313,6 @@ public class Busqueda extends JFrame {
 					modelo1.removeRow(tbHuespedes.getSelectedRow());
 					JOptionPane.showMessageDialog(this, cantidadEliminada + " Item eliminado con éxito!");
 				}, () -> JOptionPane.showMessageDialog(this, "ha seleccionado de la tabla huesped, elije un item"));
-	}
-
-	private void limpiarTabla() {
-		modelo1.setColumnCount(0);
 	}
 
 //cada vez que seleccione una casilla en la columna me lee toda la fila me la elimina;
