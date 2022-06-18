@@ -151,18 +151,12 @@ public class Reservas extends JFrame {
 				java.util.Date fechaSalida = txtFechaS.getDate();
 				java.util.Date fechaEntrada = txtFechaE.getDate();
 
-				@SuppressWarnings("deprecation")
-				Date converFechaEntrada = new Date(fechaEntrada.getYear(), fechaEntrada.getMonth(),
-						fechaEntrada.getDay());
-				
-				@SuppressWarnings("deprecation")
-				Date converFechaSalida = new Date(fechaSalida.getYear(), fechaSalida.getMonth(), fechaSalida.getDay());
 				SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
 				String dateone = formato.format(fechaSalida);
 				String dateTwo = formato.format(fechaEntrada);
 				LocalDate dataFechaEn = LocalDate.parse(dateone);
 				LocalDate dataFechaSa = LocalDate.parse(dateTwo);
-				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn)*-1;
+				long dataDate = ChronoUnit.DAYS.between( dataFechaEn,dataFechaSa)*-1;
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
 				txtValor.setText(String.valueOf(valores));
@@ -192,21 +186,16 @@ public class Reservas extends JFrame {
 					huesped.setVisible(true);
 
 					dispose();
+					//se crear del paquete util el tipo de dato fecha para qie lo pueda castear a Localate y asi poder calcular la cantidad de dias por valor unitario
 				java.util.Date fechaSalida = txtFechaS.getDate();
 				java.util.Date fechaEntrada = txtFechaE.getDate();
 
-				@SuppressWarnings("deprecation")
-				Date converFechaEntrada = new Date(fechaEntrada.getYear(), fechaEntrada.getMonth(),
-						fechaEntrada.getDay());
-				
-				@SuppressWarnings("deprecation")
-				Date converFechaSalida = new Date(fechaSalida.getYear(), fechaSalida.getMonth(), fechaSalida.getDay());
 				SimpleDateFormat formato = new SimpleDateFormat("YYYY-MM-dd");
 				String dateone = formato.format(fechaSalida);
 				String dateTwo = formato.format(fechaEntrada);
 				LocalDate dataFechaEn = LocalDate.parse(dateone);
 				LocalDate dataFechaSa = LocalDate.parse(dateTwo);
-				long dataDate = ChronoUnit.DAYS.between(dataFechaSa, dataFechaEn);
+				long dataDate = ChronoUnit.DAYS.between( dataFechaEn,dataFechaSa);
 				logic.setValor(4500);
 				float valores = logic.getValor() * (int) dataDate;
 				txtValor.setText(String.valueOf(Math.abs(valores)));

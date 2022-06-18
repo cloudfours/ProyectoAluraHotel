@@ -65,14 +65,10 @@ public class Busqueda extends JFrame {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (txtBuscar.getText().length() == 0) {
-
-				} else if (txtBuscar.getText().length() > 0) {
-
+				
 					buscar();
-					buscarRe();
 
-				}
+				
 
 			}
 
@@ -108,10 +104,13 @@ public class Busqueda extends JFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount()) {
+				if ((tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount())
+						|| tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount()) {
 					editarReser();
-				} else if (tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount()) {
 					editarHuesped();
+				} else {
+					
+
 				}
 			}
 
@@ -176,12 +175,13 @@ public class Busqueda extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				
-					eliminarReserva();
-				
+				if ((tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount())
+						|| (tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount())) {
 					eliminarHuesped();
-				
+					eliminarReserva();
+				} else {
 
+				}
 			}
 
 		});
@@ -204,6 +204,8 @@ public class Busqueda extends JFrame {
 		setResizable(false);
 	}
 
+	// me carga la tabla que me instancia a travez de la clase reservacrontoller por
+	// medio de un for each ;
 	private void cargarTabla() {
 
 		var huespedes = this.reservar.listcompleta();
@@ -221,7 +223,9 @@ public class Busqueda extends JFrame {
 	private boolean seleccionCasilla() {
 		return tbHuespedes.getSelectedRowCount() == 0 || tbHuespedes.getSelectedRowCount() == 0;
 	}
-	//cada vez que seleccione una casilla en la columna me lee toda la fila me la edita;
+
+	// cada vez que seleccione una casilla en la columna me lee toda la fila me la
+	// edita;
 	private void editarHuesped() {
 		if (seleccionCasilla()) {
 			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
@@ -253,7 +257,9 @@ public class Busqueda extends JFrame {
 	private boolean seleccionCasillas() {
 		return tbReservas.getSelectedRowCount() == 0 || tbReservas.getSelectedRowCount() == 0;
 	}
-	//cada vez que seleccione una casilla en la columna me lee toda la fila me la edita;
+
+	// cada vez que seleccione una casilla en la columna me lee toda la fila me la
+	// edita;
 	private void editarReser() {
 		if (seleccionCasillas()) {
 			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
@@ -276,10 +282,12 @@ public class Busqueda extends JFrame {
 				}, () -> JOptionPane.showMessageDialog(null, "por favor elija item"));
 
 	}
-	//cada vez que seleccione una casilla en la columna me lee toda la fila me la elimina;
+
+	// cada vez que seleccione una casilla en la columna me lee toda la fila me la
+	// elimina;
 	private void eliminarHuesped() {
 		if (seleccionCasilla()) {
-			JOptionPane.showMessageDialog(null, "Por favor, elije un item");
+			JOptionPane.showMessageDialog(null, "fila huesped");
 			return;
 		}
 		Optional.ofNullable(modelo1.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
@@ -289,15 +297,19 @@ public class Busqueda extends JFrame {
 					cantidadEliminada = this.reservar.eliminar(id);
 					modelo1.removeRow(tbHuespedes.getSelectedRow());
 					JOptionPane.showMessageDialog(this, cantidadEliminada + " Item eliminado con éxito!");
-				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+				}, () -> JOptionPane.showMessageDialog(this, "ha seleccionado de la tabla huesped, elije un item"));
 	}
 
 	private void limpiarTabla() {
 		modelo1.setColumnCount(0);
 	}
+
 //cada vez que seleccione una casilla en la columna me lee toda la fila me la elimina;
 	private void eliminarReserva() {
-
+		if (seleccionCasillas()) {
+			JOptionPane.showMessageDialog(null, "fila reserva");
+			return;
+		}
 		Optional.ofNullable(modelo2.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
 				.ifPresentOrElse(fila -> {
 					Integer id = Integer.valueOf(modelo2.getValueAt(tbReservas.getSelectedRow(), 0).toString());
@@ -305,7 +317,7 @@ public class Busqueda extends JFrame {
 					cantidadEliminada = this.reservar.eliminarRe(id);
 					modelo2.removeRow(tbReservas.getSelectedRow());
 					JOptionPane.showMessageDialog(this, cantidadEliminada + " Item eliminado con éxito!");
-				}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+				}, () -> JOptionPane.showMessageDialog(this, "ha seleccionado tabla reserva, elije un item"));
 	}
 
 }
