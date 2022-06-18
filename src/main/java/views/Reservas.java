@@ -235,6 +235,7 @@ public class Reservas extends JFrame {
 		lblNewLabel_2.setBounds(15, 6, 104, 107);
 		panel.add(lblNewLabel_2);
 		
+		
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {

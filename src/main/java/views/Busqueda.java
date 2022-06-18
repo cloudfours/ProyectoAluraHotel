@@ -110,11 +110,14 @@ public class Busqueda extends JFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if ((tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount())
-						|| tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount()) {
-					editarReser();
+				if (tbHuespedes.isVisible()) {
 					editarHuesped();
-				} else {
+					limpiarTablaHuespedes();
+					cargarTabla();
+				} else if (tbReservas.isVisible()) {
+					editarReser();
+					limpiarTablaReserva();
+					cargarTablaReserva();
 
 				}
 			}
@@ -180,12 +183,14 @@ public class Busqueda extends JFrame {
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if ((tbReservas.getSelectedRowCount() == tbReservas.getSelectedRowCount())
-						|| (tbHuespedes.getSelectedRowCount() == tbHuespedes.getSelectedRowCount())) {
-
+				if (tbHuespedes.isVisible()) {
 					eliminarHuesped();
+					limpiarTablaHuespedes();
+					cargarTabla();
+				} else if (tbReservas.isVisible()) {
 					eliminarReserva();
-				} else {
+					limpiarTablaReserva();
+					cargarTablaReserva();
 
 				}
 			}
@@ -199,6 +204,7 @@ public class Busqueda extends JFrame {
 		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cargarTabla();
 				cargarTablaReserva();
 			}
 
