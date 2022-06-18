@@ -68,9 +68,12 @@ public class Busqueda extends JFrame {
 				if (tbHuespedes.isVisible()) {
 					buscar();
 					limpiarTablaHuespedes();
+					buscar();
 				} else if (tbReservas.isVisible()) {
 					buscarRe();
 					limpiarTablaReserva();
+					buscarRe();
+
 				}
 
 			}
@@ -196,7 +199,7 @@ public class Busqueda extends JFrame {
 		contentPane.add(btnCancelar);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				cargarTablaReserva();
 			}
 
 		});
@@ -208,14 +211,12 @@ public class Busqueda extends JFrame {
 	}
 
 	private void limpiarTablaHuespedes() {
-		modelo1.getDataVector().clear();
-		;
+		modelo1.getDataVector().removeAllElements();
 
 	}
 
 	private void limpiarTablaReserva() {
-		modelo2.getDataVector().clear();
-		;
+		modelo2.getDataVector().removeAllElements();
 
 	}
 
